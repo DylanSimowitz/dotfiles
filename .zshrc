@@ -1,66 +1,59 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/javacafe01/.zshrc'
+# Startup
+autoload -Uz zmv
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
-path=("$HOME/.bin" $path)
-export PATH
-
-path=("$HOME/.local/bin" $path)
-export PATH
-
-# Aliases
-alias v="nvim"
-alias icat="kitty +kitten icat"
-alias c="clear"
-alias ubrmus="~/.ncmpcpp/ncmpcpp-ueberzug/ncmpcpp-ueberzug"
-
-# Dotbare Variables
+# Environment Variables
+export LIGHTHOUSE_CHROMIUM_PATH=/usr/bin/chromium
+export LIBVIRT_DEFAULT_URI='qemu:///system'
+export EDITOR=nvim
+export SUDO_EDITOR=nvim
+export VISUAL=code
+export KEYTIMEOUT=1
 export DOTBARE_DIR="$HOME/.cfg"
 export DOTBARE_TREE="$HOME"
 
-export TERM="xterm-256color"
-  if [ "$ISLINUX" '==' 'true' ]; then
-    { infocmp -1 xterm-256color ; echo "\tsitm=\\E[3m,\n\tritm=\\E[23m,"; } | \
-      tic -x -
-  fi
+# Prerequisites
+source /usr/share/zsh/share/antigen.zsh
 
-blocks() {
-	echo
-	for i in {0..7}; do echo -n "\e[4${i}m  \e[0m ";	done
-	echo
-	for i in {0..7}; do echo -n "\e[10${i}m  \e[0m ";	done
-	echo -e "\n"
-}
+# Settings
+zstyle ':completion:*' rehash true
+setopt INC_APPEND_HISTORY
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+KEYTIMEOUT=1
+SAVEHIST=10000
+HISTSIZE=10000
+HISTFILE=~/.zsh_history
 
-alias ls='exa --icons'
-alias l='ls -l'
-alias la='ls -a'
-alias lla='ls -la'
-alias lt='ls --tree'
+# Antigen
+antigen use oh-my-zsh
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle thefuck
+antigen bundle adb
+antigen bundle command-not-found
+antigen theme bira
+antigen bundle kazhala/dotbare
+antigen apply
 
-alias cat='bat'
+# Keybinds
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -v
 
-alias xwin='Xephyr -br -ac -noreset -screen 1400x800 :1'
-alias xdisp='DISPLAY=:1 '
+# Aliases
+alias vim='nvim'
+alias zshrc='vim ~/.config/zsh/.zshrc'
+alias vimrc='vim ~/.vimrc'
+alias git=hub
+alias clip-ssh='xclip ~/.ssh/id_rsa.pub -selection clipboard'
+alias vpn='nmcli con up id '
+alias docker-ip="docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'"
+alias tmuxr="systemctl --user restart tmux"
+alias matrix="unimatrix -n -s 96 -a"
+eval "$(thefuck --alias)"
 
-alias fetish="info='n os wm sh cpu mem kern term pkgs col n' accent=4 separator='  ' fet.sh"
-
-if command -v promptus >/dev/null; then
-    precmd() { PROMPT="$(eval 'promptus $?')" }
-fi
-
-# this won't get used if promptus is found above
-export PROMPT="my cool prompt $ "
-
-#export FZF_DEFAULT_OPTS='--color prompt:10,border:12,bg+:8,pointer:5'
-
+# Initialization
+source /usr/share/nvm/init-nvm.sh
 clear; gfetch
-if [ -e /home/javacafe01/.nix-profile/etc/profile.d/nix.sh ]; then . /home/javacafe01/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

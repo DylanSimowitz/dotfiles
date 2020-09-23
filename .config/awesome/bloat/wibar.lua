@@ -258,8 +258,8 @@ awful.screen.connect_for_each_screen(function(s)
             { -- Right widgets
                 layout = wibox.layout.align.horizontal,
                 spacing = beautiful.wibar_spacing,
-                --ram_bar,
-                battery,
+                ram_bar,
+                --battery,
                 helpers.horizontal_pad(15),
                 mysystray_container
             },

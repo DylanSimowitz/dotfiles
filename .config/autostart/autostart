@@ -25,4 +25,4 @@ start ~/.bin/phicom
 # Disable System Bell
 start xset -b
 # Set Wallpaper
-start feh --bg-tile /home/javacafe01/Pictures/wallpapers/1.png
+start feh --bg-tile /home/dylan/Pictures/wallpapers/1.png
