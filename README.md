@@ -3,13 +3,13 @@
 </p>
 
 <p align="center">
-  <b> My Dots </b>
+  <b>  </b>
 </p>
 
 ## Preview
 
 <p align="center">
-<img src="https://imgur.com/nmYd5bl.png" alt="img" width="900px">
+<img src="https://imgur.com/GvWqC9t.png" alt="img" width="900px">
 </p>
 
 This rice was heavily ~~stolen from~~ inspired by [elenapan](https://github.com/elenapan/dotfiles/tree/master/config/awesome) and [Eredarion](https://github.com/Eredarion/dotfiles/tree/master/.config/awesome).
@@ -25,7 +25,7 @@ This rice was heavily ~~stolen from~~ inspired by [elenapan](https://github.com/
 + **Browser**: firefox
 + **Color Scheme**: custom
 + **GTK Theme**: [phocus](https://github.com/phocus/gtk)
-+ **Wallpaper**: [here](https://imgur.com/FVn0pA3)
++ **Wallpaper**: [here](https://github.com/JavaCafe01/dotfiles/blob/master/.config/awesome/images/bg.png)
 
 ### Fonts
 
@@ -35,7 +35,7 @@ This rice was heavily ~~stolen from~~ inspired by [elenapan](https://github.com/
 
 ### Discord
 
-Here is my discord [theme](https://gist.github.com/JavaCafe01/ff090411cd9e2e5409d9d13216ef034b). Use whatever you want t0 inject it.
+Here is my discord [theme](https://gist.github.com/JavaCafe01/ff090411cd9e2e5409d9d13216ef034b). Use whatever you want to inject it.
 
 > ### Screenshot
 
