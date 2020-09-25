@@ -33,12 +33,12 @@ box_image:set_image(gears.filesystem.get_configuration_dir() .. "images/me.png")
 ------------------------------------------------------------
 local mpd_title = wibox.widget {
     markup = "<span foreground='" .. beautiful.xcolor6 ..
-        "'><b>JavaCafe01</b></span>",
+        "'><b>Angus#8797</b></span>",
     widget = wibox.widget.textbox
 }
 local mpd_artist = wibox.widget {
     markup = "<span foreground='" .. beautiful.xcolor4 ..
-        "'><b>Gokul Swami</b></span>",
+        "'><b>Dylan Simowitz</b></span>",
     widget = wibox.widget.textbox
 }
 
