@@ -133,7 +133,7 @@ local cpu = require("widgets.cpu_arc")
 
 --- {{{ Clock
 
-local fancy_time_widget = wibox.widget.textclock("%H%M")
+local fancy_time_widget = wibox.widget.textclock("%I%M")
 fancy_time_widget.markup = fancy_time_widget.text:sub(1, 2) ..
                                "<span foreground='" .. beautiful.xcolor12 ..
                                "'>" .. fancy_time_widget.text:sub(3, 4) ..
