@@ -18,7 +18,8 @@ end
 -- run_once("nm-applet")
 
 -- Compositor
-run_once("~/.bin/phicom2")
+-- run_once("~/.bin/phicom2")
+-- run_once("/usr/bin/picom")
 
 -- Disable Bell
 run_once("xset -b")
