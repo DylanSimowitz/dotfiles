@@ -1,0 +1,96 @@
+# macros
+[macros.clone]
+    deps = ["git"]
+    prefix = ["git", "clone"]
+
+[macros.install__arch]
+    deps = ["yay"]
+    prefix = ["yay", "-S", "--noconfirm", "--noeditmenu", "--needed"]
+
+[macros.install__macos]
+    deps = ["brew"]
+    prefix = ["brew", "install"]
+
+[macros.go-get]
+    deps = ["golang"]
+    prefix = ["go", "get"]
+
+[macros.npm-install]
+    deps = ["node"]
+    prefix = ["npm", "install", "-g"]
+
+[macros.pip-install]
+    prefix = ["pip", "install"]
+
+[macros.gem-install]
+    prefix = ["gem", "install"]
+
+
+#tasks
+[tasks.git]
+    rejects = [["which", "git"]]
+    cmds = [["@install", "git"]]
+    links = [[".gitconfig"]]
+
+[tasks.brew]
+    rejects = [["which", "brew"]]
+    cmds = [["curl", "-fsSL", "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"]]
+
+[tasks.yay]
+    rejects = [["which", "yay"]]
+    cmds = [
+	["mkdir", "-p", "/tmp/yay_install"],
+	["cd", "/tmp/yay_install"],
+        ["@clone", "https://aur.archlinux.org/yay.git"],
+        ["cd", "yay"],
+        ["makepkg", "-si"],
+	["rm", "-r", "/tmp/yay_install"],
+    ]
+
+[tasks.node]
+    cmds = [["@install", "nodejs"]]
+
+[tasks.tmux]
+    cmds = [
+    	["@install", "tmux"],
+	["@clone", "https://github.com/tmux-plugins/tpm", "${HM_DEST}/.tmux/plugins/tpm"]
+    ]
+    links = [[".tmux.conf"]]
+
+[tasks.vim]
+    deps = ["fonts"]
+    cmds = [
+    	["@install", "neovim", "ripgrep"],
+        ["@npm-install", "typescript-language-server", "prettier", "eslint_d"],
+	["@clone", "https://github.com/NvChad/NvChad", "${HM_DEST}/.config/nvim"]
+    ]
+    links = [["${HM_DEST}/.config/nvim/lua/custom", "nvim"]]
+
+[tasks.zsh]
+    deps=["fonts"]
+    cmds = [
+    	["@install", "zsh", "starship", "thefuck", "nvm", "antigen"],
+	["chsh", "-s", "/usr/bin/zsh"]
+    ]
+    links = [
+        [".zshrc"],
+	[".config/starship.toml"]
+    ]
+
+[tasks.term]
+    deps = ["zsh"]
+    cmds = [
+        ["@install", "alacritty"],
+    ]
+    links = [[".config/alacritty.yml"]]
+
+[tasks.fonts]
+    cmds = [
+        ["@install", "font-jetbrains-mono-nerd-font"],
+    ]
+    links = [[".local/share/fonts"]]
+
+
+[tasks.default]
+    deps = ["term", "vim", "tmux"]
+
