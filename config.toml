@@ -69,7 +69,7 @@
 [tasks.zsh]
     deps=["fonts"]
     cmds = [
-    	["@install", "zsh", "starship", "thefuck", "nvm", "antigen"],
+    	["@install", "zsh", "starship", "thefuck", "nvm", "antigen", "hub"],
 	["chsh", "-s", "/usr/bin/zsh"]
     ]
     links = [

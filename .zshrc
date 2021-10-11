@@ -31,6 +31,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#fff,bg=red,bold"
 
 alias ibrew="arch --x86_64 /usr/local/Homebrew/bin/brew"
 alias vim="nvim"
+alias git="hub"
 eval $(thefuck --alias)
 
 export NVM_DIR="$HOME/.nvm"
