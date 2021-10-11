@@ -66,6 +66,11 @@
     ]
     links = [["${HM_DEST}/.config/nvim/lua/custom", "nvim"]]
 
+[tasks.utils]
+    cmds = [
+        ["@install", "tldr"]
+    ]
+
 [tasks.zsh]
     deps=["fonts"]
     cmds = [
