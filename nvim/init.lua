@@ -22,7 +22,7 @@ local hooks = require "core.hooks"
 -- example below:
 
 hooks.add("setup_mappings", function(map)
-   map("n", "<leader>fm", "<buffer> lua vim.lsp.buf.formatting_seq_sync()") -- example to delete the buffer
+   map("n", "<leader>fm", "<buffer> lua vim.lsp.buf.formatting_seq_sync()")
 end)
 
 -- To add new plugins, use the "install_plugin" hook,
@@ -44,4 +44,5 @@ end)
 -- then source it with
 
 -- require "custom.plugins.mkdir"
+require "custom.autocmds"
 
