@@ -21,6 +21,8 @@ local hooks = require "core.hooks"
 -- you can set one or many mappings
 -- example below:
 
+vim.api.nvim_set_option("guifont", "JetbrainsMono Nerd Font:h14")
+
 hooks.add("setup_mappings", function(map)
    map("n", "<leader>fm", "<buffer> lua vim.lsp.buf.formatting_seq_sync()")
 end)
@@ -32,12 +34,42 @@ end)
 
 hooks.add("install_plugins", function(use)
    use {
-      "jose-elias-alvarez/null-ls.nvim",
-      after = "nvim-lspconfig",
-      config = function()
-         require("custom.plugins.null-ls").setup()
-      end,
+    "jose-elias-alvarez/null-ls.nvim",
+    after = "nvim-lspconfig",
+    config = function()
+       require("custom.plugins.null-ls").setup()
+    end,
    }
+   use {
+     "ekickx/clipboard-image.nvim",
+     config = function()
+       require("custom.plugins.clipboard-image").setup()
+     end,
+   }
+   use {
+    'glacambre/firenvim',
+    run = function() vim.fn['firenvim#install'](0) end 
+   }
+   use({
+     'jameshiew/nvim-magic',
+     config = function()
+       require('nvim-magic').setup()
+     end,
+     requires = {
+       'nvim-lua/plenary.nvim',
+       'MunifTanjim/nui.nvim'
+     }
+   })
+  use ({
+    'TimUntersberger/neogit',
+    config = function()
+      require("custom.plugins.neogit").setup()
+    end,
+    requires = {
+      -- 'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim'
+    }
+  })
 end)
 
 -- alternatively, put this in a sub-folder like "lua/custom/plugins/mkdir"
