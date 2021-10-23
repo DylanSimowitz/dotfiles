@@ -25,6 +25,8 @@ antigen theme robbyrussell
 # Tell Antigen that you're done.
 antigen apply
 
+ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
