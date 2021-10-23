@@ -1,4 +1,7 @@
 path+=$(go env GOPATH)/bin
+HISTSIZE=10000
+SAVEHIST=10000
+KEYTIMEOUT=1
 
 source /opt/homebrew/share/antigen/antigen.zsh
 
