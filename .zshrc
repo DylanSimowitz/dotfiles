@@ -4,6 +4,7 @@ SAVEHIST=10000
 KEYTIMEOUT=1
 
 source /opt/homebrew/share/antigen/antigen.zsh
+source secrets.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
