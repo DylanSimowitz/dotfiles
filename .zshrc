@@ -1,10 +1,24 @@
 path+=$(go env GOPATH)/bin
+path+=~/.local/bin
+path+=~/.npm-global/bin
+path+=~/dotfiles/scripts
+
 HISTSIZE=10000
 SAVEHIST=10000
 KEYTIMEOUT=1
+TMOUT=120
 
-source /opt/homebrew/share/antigen/antigen.zsh
-source secrets.zsh
+TRAPALRM() { neo-matrix }
+
+if [[ `uname` == "Linux" ]]; then
+  source /usr/share/zsh/share/antigen.zsh
+  source /usr/share/doc/pkgfile/command-not-found.zsh
+elif [[ `uname` == "Darwin" ]]; then
+  source /opt/homebrew/share/antigen/antigen.zsh
+else
+    echo 'Unknown OS!'
+fi
+source ~/secrets.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
@@ -38,6 +52,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#fff,bg=red,bold"
 alias ibrew="arch --x86_64 /usr/local/Homebrew/bin/brew"
 alias vim="nvim"
 alias git="hub"
+alias ls="exa --icons"
 eval $(thefuck --alias)
 
 export NVM_DIR="$HOME/.nvm"
