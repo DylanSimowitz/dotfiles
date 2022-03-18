@@ -17,7 +17,7 @@
 
 [macros.npm-install]
     deps = ["node"]
-    prefix = ["npm", "install", "-g"]
+    prefix = ["sudo", "npm", "install", "-g"]
 
 [macros.pip-install]
     prefix = ["pip", "install"]
@@ -40,15 +40,15 @@
     rejects = [["which", "yay"]]
     cmds = [
 	["mkdir", "-p", "/tmp/yay_install"],
-	["cd", "/tmp/yay_install"],
-        ["@clone", "https://aur.archlinux.org/yay.git"],
-        ["cd", "yay"],
-        ["makepkg", "-si"],
-	["rm", "-r", "/tmp/yay_install"],
+        ["@clone", "https://aur.archlinux.org/yay.git", "/tmp/yay_install"],
+        ["bash", "-c", "cd /tmp/yay_install && makepkg -si"],
+	["sudo", "rm", "-r", "/tmp/yay_install"],
     ]
 
 [tasks.node]
-    cmds = [["@install", "nodejs"]]
+    cmds = [
+	["@install", "nodejs", "npm"]
+    ]
 
 [tasks.tmux]
     cmds = [
@@ -75,6 +75,8 @@
     deps=["fonts"]
     cmds = [
     	["@install", "zsh", "starship", "thefuck", "nvm", "antigen", "hub"],
+	["touch", "${HM_DEST}/secrets.zsh"],
+	["zsh", "-c", "source ${HM_SRC}/.zshrc || true"],
 	["chsh", "-s", "/usr/bin/zsh"]
     ]
     links = [
@@ -89,9 +91,15 @@
     ]
     links = [[".config/alacritty.yml"]]
 
-[tasks.fonts]
+[tasks.fonts__macos]
     cmds = [
         ["@install", "font-jetbrains-mono-nerd-font"],
+    ]
+    links = [[".local/share/fonts"]]
+
+[tasks.fonts__arch]
+    cmds = [
+        ["@install", "nerd-fonts-jetbrains-mono"],
     ]
     links = [[".local/share/fonts"]]
 

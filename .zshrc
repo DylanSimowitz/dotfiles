@@ -8,7 +8,7 @@ SAVEHIST=10000
 KEYTIMEOUT=1
 TMOUT=120
 
-TRAPALRM() { neo-matrix }
+TRAPALRM() { neo-matrix -m "$(echo -n `fortune`)" -s -D -S 10 -d 0.5 --colormode=16 }
 
 if [[ `uname` == "Linux" ]]; then
   source /usr/share/zsh/share/antigen.zsh
@@ -53,6 +53,7 @@ alias ibrew="arch --x86_64 /usr/local/Homebrew/bin/brew"
 alias vim="nvim"
 alias git="hub"
 alias ls="exa --icons"
+alias k="kubectl"
 eval $(thefuck --alias)
 
 export NVM_DIR="$HOME/.nvm"
