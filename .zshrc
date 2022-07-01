@@ -2,6 +2,7 @@ path+=$(go env GOPATH)/bin
 path+=~/.local/bin
 path+=~/.npm-global/bin
 path+=~/dotfiles/scripts
+path+=~/.cargo/bin
 
 HISTSIZE=10000
 SAVEHIST=10000
