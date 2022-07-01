@@ -58,6 +58,7 @@ alias k="kubectl"
 eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
 
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
