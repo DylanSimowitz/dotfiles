@@ -72,9 +72,7 @@
     links = [["${HM_DEST}/.config/nvim/lua/custom", "nvim"]]
 
 [tasks.utils]
-    cmds = [
-        ["@install", "tldr"]
-    ]
+    cmds = [["@install", "tldr", "lazydocker", "btop"]]
 
 [tasks.zsh]
     deps=["fonts"]
