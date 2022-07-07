@@ -37,26 +37,28 @@
 
 [tasks.brew]
     rejects = [["which", "brew"]]
-    cmds = [["curl", "-fsSL", "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"]]
+    cmds = [
+        ["curl", "-fsSL", "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"]
+    ]
 
 [tasks.yay]
     rejects = [["which", "yay"]]
     cmds = [
-	["mkdir", "-p", "/tmp/yay_install"],
+	    ["mkdir", "-p", "/tmp/yay_install"],
         ["@clone", "https://aur.archlinux.org/yay.git", "/tmp/yay_install"],
         ["bash", "-c", "cd /tmp/yay_install && makepkg -si"],
-	["sudo", "rm", "-r", "/tmp/yay_install"],
+	    ["sudo", "rm", "-r", "/tmp/yay_install"],
     ]
 
 [tasks.node]
     cmds = [
-	["@install", "nodejs", "npm"]
+	    ["@install", "nodejs", "npm"]
     ]
 
 [tasks.tmux]
     cmds = [
     	["@install", "tmux"],
-	["@clone", "https://github.com/tmux-plugins/tpm", "${HM_DEST}/.tmux/plugins/tpm"]
+	    ["@clone", "https://github.com/tmux-plugins/tpm", "${HM_DEST}/.tmux/plugins/tpm"]
     ]
     links = [[".tmux.conf"]]
 
@@ -78,13 +80,13 @@
     deps=["fonts"]
     cmds = [
     	["@install", "zsh", "starship", "thefuck", "nvm", "antigen", "hub"],
-	["touch", "${HM_DEST}/secrets.zsh"],
-	["zsh", "-c", "source ${HM_SRC}/.zshrc || true"],
-	["chsh", "-s", "/usr/bin/zsh"]
+	    ["touch", "${HM_DEST}/secrets.zsh"],
+	    ["zsh", "-c", "source ${HM_SRC}/.zshrc || true"],
+	    ["chsh", "-s", "/usr/bin/zsh"]
     ]
     links = [
         [".zshrc"],
-	[".config/starship.toml"]
+	    [".config/starship.toml"]
     ]
 
 [tasks.term]
