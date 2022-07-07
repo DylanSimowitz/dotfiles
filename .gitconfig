@@ -1,0 +1,22 @@
+[user]
+	email = git@dylan.simowitz.com
+	name = Dylan Simowitz
+[core]
+	editor = nvim
+	pager = delta
+	excludesfile = ~/.gitignore_global
+
+[interactive]
+	diffFilter = delta --color-only
+[add.interactive]
+	useBuiltin = false
+
+[delta]
+	navigate = true
+	light = false
+
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	colorMoved = default

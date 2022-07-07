@@ -29,8 +29,11 @@
 #tasks
 [tasks.git]
     rejects = [["which", "git"]]
-    cmds = [["@install", "git"]]
-    links = [[".gitconfig"]]
+    cmds = [["@install", "git", "git-delta", "lazygit"]]
+    links = [
+        [".gitconfig"],
+        [".gitignore_global"]
+    ]
 
 [tasks.brew]
     rejects = [["which", "brew"]]

@@ -1,0 +1,15 @@
+gui:
+  showIcons: true
+  authorColors:
+    "Dylan Simowitz": "#00ff00"
+    "*": "#ff0000"
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+customCommands:
+  - key: "C"
+    command: "git cz"
+    context: "files"
+    loadingText: "opening commitizen commit tool"
+    subprocess: true
