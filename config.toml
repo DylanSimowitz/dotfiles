@@ -63,13 +63,20 @@
     links = [[".tmux.conf"]]
 
 [tasks.vim]
-    deps = ["fonts"]
+    deps = ["fonts", "git"]
     cmds = [
     	["@install", "neovim", "ripgrep"],
-        ["@npm-install", "typescript-language-server", "prettier", "eslint_d"],
-	["@clone", "https://github.com/NvChad/NvChad", "${HM_DEST}/.config/nvim"]
+        ["@npm-install", "prettier", "eslint_d"],
+        ["@go-install", "github.com/errata-ai/vale@latest"],
+	    ["@clone", "https://github.com/AstroNvim/AstroNvim", "${HM_DEST}/.config/nvim"]
     ]
-    links = [["${HM_DEST}/.config/nvim/lua/custom", "nvim"]]
+    cmdspost = [
+	    ["nvim", "--headless", "-c", 'autocmd User PackerComplete quitall', "-c", 'PackerSync']
+    ]
+    links = [
+        ["${HM_DEST}/.config/nvim/lua/user", "nvim"],
+        [".config/lazygit/config.yml"]
+    ]
 
 [tasks.utils]
     cmds = [["@install", "tldr", "lazydocker", "btop"]]
