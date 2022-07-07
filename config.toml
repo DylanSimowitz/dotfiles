@@ -50,6 +50,11 @@
 	    ["sudo", "rm", "-r", "/tmp/yay_install"],
     ]
 
+[tasks.go]
+    cmds = [
+	    ["@install", "go"]
+    ]
+
 [tasks.node]
     cmds = [
 	    ["@install", "nodejs", "npm"]
