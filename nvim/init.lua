@@ -1,80 +1,110 @@
--- This is where your custom modules and plugins go.
--- See the wiki for a guide on how to extend NvChad
-
-local hooks = require "core.hooks"
-
--- NOTE: To use this, make a copy with `cp example_init.lua init.lua`
-
---------------------------------------------------------------------
-
--- To modify packaged plugin configs, use the overrides functionality
--- if the override does not exist in the plugin config, make or request a PR,
--- or you can override the whole plugin config with 'chadrc' -> M.plugins.default_plugin_config_replace{}
--- this will run your config instead of the NvChad config for the given plugin
-
--- hooks.override("lsp", "publish_diagnostics", function(current)
---   current.virtual_text = false;
---   return current;
--- end)
-
--- To add new mappings, use the "setup_mappings" hook,
--- you can set one or many mappings
--- example below:
-
-vim.api.nvim_set_option("guifont", "JetbrainsMono Nerd Font:h14")
-
-hooks.add("setup_mappings", function(map)
-   map("n", "<leader>fm", "<buffer> lua vim.lsp.buf.formatting_seq_sync()")
-end)
-
--- To add new plugins, use the "install_plugin" hook,
--- NOTE: we heavily suggest using Packer's lazy loading (with the 'event' field)
--- see: https://github.com/wbthomason/packer.nvim
--- examples below:
-
-hooks.add("install_plugins", function(use)
-   use {
-    "jose-elias-alvarez/null-ls.nvim",
-    after = "nvim-lspconfig",
-    config = function()
-       require("custom.plugins.null-ls").setup()
-    end,
-   }
-   use {
-     "ekickx/clipboard-image.nvim",
-     config = function()
-       require("custom.plugins.clipboard-image").setup()
-     end,
-   }
-   use {
-    'glacambre/firenvim',
-    run = function() vim.fn['firenvim#install'](0) end 
-   }
-   use({
-     'jameshiew/nvim-magic',
-     config = function()
-       require('nvim-magic').setup()
-     end,
-     requires = {
-       'nvim-lua/plenary.nvim',
-       'MunifTanjim/nui.nvim'
-     }
-   })
-  use ({
-    'TimUntersberger/neogit',
-    config = function()
-      require("custom.plugins.neogit").setup()
-    end,
-    requires = {
-      -- 'nvim-lua/plenary.nvim',
-      'sindrets/diffview.nvim'
+return {
+  colorscheme = "tokyonight",
+  options = {
+    g = {
+      tokyonight_style = "night",
+      copilot_no_tab_map = true,
+    },
+    opt = {
+      cmdheight = 1
     }
-  })
-end)
-
--- alternatively, put this in a sub-folder like "lua/custom/plugins/mkdir"
--- then source it with
-
--- require "custom.plugins.mkdir"
-require "custom.autocmds"
-
+  },
+  header = {
+    "   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          ",
+    "    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       ",
+    "          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     ",
+    "           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    ",
+    "          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   ",
+    "   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  ",
+    "  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   ",
+    " ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  ",
+    " ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ ",
+    "      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     ",
+    "       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     ",
+  },
+  mappings = {
+    i = {
+      ["<C-J>"] = { "copilot#Accept(<Tab>)", silent = true, expr = true, script = true }
+    }
+  },
+  ["which-key"] = {
+    register_mappings = {
+      n = {
+        ["<leader>"] = {
+          h = {
+            name = "Hop",
+            c = { "<cmd>HopChar1<cr>", "Character" },
+            C = { "<cmd>HopChar2<cr>", "2 Characters" },
+            l = { "<cmd>HopLine<cr>", "Line" },
+            p = { "<cmd>HopPattern<cr>", "Pattern" },
+            w = { "<cmd>HopWord<cr>", "Word" },
+          },
+        }
+      }
+    }
+  },
+  plugins = {
+    init = {
+      { "github/copilot.vim" },
+      { "folke/tokyonight.nvim" },
+      {
+        "phaazon/hop.nvim",
+        branch = "v2",
+        config = function()
+          require"hop".setup { keys = "etovxqpdygfblzhckisuran" }
+        end
+      },
+      {
+        "beauwilliams/focus.nvim",
+        config = function()
+          require("focus").setup {
+            treewidth = 40
+          }
+        end
+      }
+    },
+    ["null-ls"] = function(config)
+      local null_ls = require "null-ls"
+      local vale = null_ls.builtins.diagnostics.vale;
+      vale["filetypes"] = { "markdown", "tex", "asciidoc", "html" }
+      config.sources = {
+        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.diagnostics.eslint,
+        vale
+      }
+      config.on_attach = function(client)
+        if client.resolved_capabilities.document_formatting then
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            desc = "Auto format before save",
+            pattern = "<buffer>",
+            callback = vim.lsp.buf.formatting_sync,
+          })
+        end
+      end
+      return config
+    end
+  },
+  lsp = {
+    ["server-settings"] = {
+      tsserver = {
+        on_attach = function(client)
+          client.resolved_capabilities.document_formatting = false
+        end
+      },
+      sqls = {
+        cmd = { "sqls", "--config", vim.loop.cwd() .. "/.sqls/config.yml" }
+      },
+      yamlls = {
+        settings = {
+          yaml = {
+            schemas = {
+              ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
+              ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
+              ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
+            },
+          },
+        },
+      },
+    }
+  }
+}
