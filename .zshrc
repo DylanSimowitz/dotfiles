@@ -55,6 +55,7 @@ alias vim="nvim"
 alias git="hub"
 alias ls="exa --icons"
 alias k="kubectl"
+alias lg="lazygit"
 eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
 
