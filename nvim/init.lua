@@ -25,6 +25,12 @@ return {
   mappings = {
     i = {
       ["<C-J>"] = { "copilot#Accept(<Tab>)", silent = true, expr = true, script = true }
+    },
+    t = {
+      ["<esc>"] = false,
+      ["jk"] = false,
+      ["<c-q>"] = { "<c-\\><c-n>", desc = "Terminal normal mode" },
+      ["<esc><esc>"] = { "<c-\\><c-n>:q<cr>", desc = "Terminal quit" }
     }
   },
   ["which-key"] = {
