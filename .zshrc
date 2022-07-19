@@ -1,3 +1,6 @@
+if [ -f /run/genie.path ]; then
+  path+=$(cat /run/genie.path)
+fi
 path+=$(go env GOPATH)/bin
 path+=~/.local/bin
 path+=~/.npm-global/bin
@@ -29,6 +32,7 @@ antigen bundle git
 antigen bundle heroku
 antigen bundle pip
 antigen bundle lein
+antigen bundle lukechilds/zsh-nvm
 antigen bundle command-not-found
 antigen bundle zsh-users/zsh-history-substring-search
 antigen bundle jeffreytse/zsh-vi-mode
@@ -60,11 +64,16 @@ eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
 
 export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-
+NPM_PATH=$(which npm)
+npm () {
+  if [ -e yarn.lock ]
+  then
+    echo "Please use yarn with this project"
+  else
+    $NPM_PATH "$@"
+  fi
+}
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
