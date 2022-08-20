@@ -54,6 +54,10 @@ eval "$(starship init zsh)"
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#fff,bg=red,bold"
 
+function merge-all() {
+  gh pr list -q "map(.number)|.[]" --json number | xargs -L1 -I '#' gh pr merge '#' --merge
+}
+
 alias ibrew="arch --x86_64 /usr/local/Homebrew/bin/brew"
 alias vim="nvim"
 alias git="hub"
