@@ -1,4 +1,21 @@
 return {
+	-- Configure AstroNvim updates
+	updater = {
+		remote = "origin", -- remote to use
+		channel = "nightly", -- "stable" or "nightly"
+		version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
+		branch = "main", -- branch name (NIGHTLY ONLY)
+		commit = nil, -- commit hash (NIGHTLY ONLY)
+		pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
+		skip_prompts = false, -- skip prompts about breaking changes
+		show_changelog = true, -- show the changelog after performing an update
+		-- remotes = { -- easily add new remotes to track
+		--   ["remote_name"] = "https://remote_url.come/repo.git", -- full remote url
+		--   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
+		--   ["remote3"] = "github_user", -- GitHub user assume AstroNvim fork
+		-- },
+	},
+
 	colorscheme = "tokyonight",
 	options = {
 		g = {
@@ -34,6 +51,54 @@ return {
 		register_mappings = {
 			n = {
 				["<leader>"] = {
+					g = {
+						name = "+Git",
+						h = {
+							name = "+Github",
+							c = {
+								name = "+Commits",
+								c = { "<cmd>GHCloseCommit<cr>", "Close" },
+								e = { "<cmd>GHExpandCommit<cr>", "Expand" },
+								o = { "<cmd>GHOpenToCommit<cr>", "Open To" },
+								p = { "<cmd>GHPopOutCommit<cr>", "Pop Out" },
+								z = { "<cmd>GHCollapseCommit<cr>", "Collapse" },
+							},
+							i = {
+								name = "+Issues",
+								p = { "<cmd>GHPreviewIssue<cr>", "Preview" },
+							},
+							l = {
+								name = "+Litee",
+								t = { "<cmd>LTPanel<cr>", "Toggle Panel" },
+							},
+							r = {
+								name = "+Review",
+								b = { "<cmd>GHStartReview<cr>", "Begin" },
+								c = { "<cmd>GHCloseReview<cr>", "Close" },
+								d = { "<cmd>GHDeleteReview<cr>", "Delete" },
+								e = { "<cmd>GHExpandReview<cr>", "Expand" },
+								s = { "<cmd>GHSubmitReview<cr>", "Submit" },
+								z = { "<cmd>GHCollapseReview<cr>", "Collapse" },
+							},
+							p = {
+								name = "+Pull Request",
+								c = { "<cmd>GHClosePR<cr>", "Close" },
+								d = { "<cmd>GHPRDetails<cr>", "Details" },
+								e = { "<cmd>GHExpandPR<cr>", "Expand" },
+								o = { "<cmd>GHOpenPR<cr>", "Open" },
+								p = { "<cmd>GHPopOutPR<cr>", "PopOut" },
+								r = { "<cmd>GHRefreshPR<cr>", "Refresh" },
+								t = { "<cmd>GHOpenToPR<cr>", "Open To" },
+								z = { "<cmd>GHCollapsePR<cr>", "Collapse" },
+							},
+							t = {
+								name = "+Threads",
+								c = { "<cmd>GHCreateThread<cr>", "Create" },
+								n = { "<cmd>GHNextThread<cr>", "Next" },
+								t = { "<cmd>GHToggleThread<cr>", "Toggle" },
+							},
+						},
+					},
 					h = {
 						name = "Hop",
 						c = { "<cmd>HopChar1<cr>", "Character" },
@@ -48,6 +113,24 @@ return {
 	},
 	plugins = {
 		init = {
+			{ "gaelph/logsitter.nvim", requires = { "nvim-treesitter/nvim-treesitter" } },
+			{
+				"avneesh0612/react-nextjs-snippets",
+			},
+			{
+				"wakatime/vim-wakatime",
+			},
+			{
+				"lbrayner/vim-rzip",
+			},
+			{
+				"ldelossa/gh.nvim",
+				requires = { { "ldelossa/litee.nvim" } },
+				config = function()
+					require("litee.lib").setup()
+					require("litee.gh").setup()
+				end,
+			},
 			{
 				"zbirenbaum/copilot.lua",
 				after = "feline.nvim",
@@ -70,7 +153,7 @@ return {
 				"beauwilliams/focus.nvim",
 				config = function()
 					require("focus").setup({
-						treewidth = 40,
+						-- treewidth = 40,
 					})
 				end,
 			},
@@ -96,6 +179,28 @@ return {
 			end
 			return config
 		end,
+		treesitter = {
+			ensure_installed = { "lua" },
+		},
+		-- use mason-lspconfig to configure LSP installations
+		["mason-lspconfig"] = {
+			ensure_installed = { "sumneko_lua" },
+		},
+		-- use mason-tool-installer to configure DAP/Formatters/Linter installation
+		["mason-tool-installer"] = {
+			ensure_installed = { "prettier", "stylua" },
+		},
+		packer = {
+			compile_path = vim.fn.stdpath("data") .. "/packer_compiled.lua",
+		},
+	},
+	cmp = {
+		source_priority = {
+			nvim_lsp = 1000,
+			luasnip = 750,
+			buffer = 500,
+			path = 250,
+		},
 	},
 	lsp = {
 		["server-settings"] = {
@@ -147,4 +252,20 @@ return {
 			},
 		},
 	},
+	diagnostics = {
+		virtual_text = true,
+		underline = true,
+	},
+	polish = function()
+		vim.api.nvim_create_augroup("Logsitter", { clear = true })
+		vim.api.nvim_create_autocmd("FileType", {
+			group = "Logsitter",
+			pattern = "javascript,go,lua,javascriptreact,javascript.jsx,typescript,typescriptreact,typescript.tsx",
+			callback = function()
+				vim.keymap.set("n", "<leader>lg", function()
+					require("logsitter").log()
+				end)
+			end,
+		})
+	end,
 }
