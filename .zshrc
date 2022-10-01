@@ -12,7 +12,7 @@ SAVEHIST=10000
 KEYTIMEOUT=1
 TMOUT=600
 
-TRAPALRM() { neo-matrix -m "$(echo -n `fortune`)" -s -D -S 10 -d 0.5 --colormode=16 }
+# TRAPALRM() { neo-matrix -m "$(echo -n `fortune`)" -s -D -S 10 -d 0.5 --colormode=16 }
 
 if [[ `uname` == "Linux" ]]; then
   source /usr/share/zsh/share/antigen.zsh
