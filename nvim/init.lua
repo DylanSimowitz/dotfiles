@@ -1,29 +1,11 @@
 return {
-	-- Configure AstroNvim updates
 	updater = {
-		remote = "origin", -- remote to use
-		channel = "nightly", -- "stable" or "nightly"
-		version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
-		branch = "main", -- branch name (NIGHTLY ONLY)
-		commit = nil, -- commit hash (NIGHTLY ONLY)
-		pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
-		skip_prompts = false, -- skip prompts about breaking changes
-		show_changelog = true, -- show the changelog after performing an update
-		-- remotes = { -- easily add new remotes to track
-		--   ["remote_name"] = "https://remote_url.come/repo.git", -- full remote url
-		--   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
-		--   ["remote3"] = "github_user", -- GitHub user assume AstroNvim fork
-		-- },
+		branch = "nightly",
 	},
-
-	colorscheme = "tokyonight",
+	colorscheme = "tokyonight-night",
 	options = {
 		g = {
 			tokyonight_style = "night",
-			copilot_no_tab_map = true,
-		},
-		opt = {
-			cmdheight = 1,
 		},
 	},
 	header = {
@@ -41,63 +23,29 @@ return {
 	},
 	mappings = {
 		t = {
-			["<esc>"] = false,
-			["jk"] = false,
 			["<c-q>"] = { "<c-\\><c-n>", desc = "Terminal normal mode" },
 			["<esc><esc>"] = { "<c-\\><c-n>:q<cr>", desc = "Terminal quit" },
 		},
 	},
 	["which-key"] = {
-		register_mappings = {
+		register = {
 			n = {
 				["<leader>"] = {
-					g = {
-						name = "+Git",
-						h = {
-							name = "+Github",
-							c = {
-								name = "+Commits",
-								c = { "<cmd>GHCloseCommit<cr>", "Close" },
-								e = { "<cmd>GHExpandCommit<cr>", "Expand" },
-								o = { "<cmd>GHOpenToCommit<cr>", "Open To" },
-								p = { "<cmd>GHPopOutCommit<cr>", "Pop Out" },
-								z = { "<cmd>GHCollapseCommit<cr>", "Collapse" },
-							},
-							i = {
-								name = "+Issues",
-								p = { "<cmd>GHPreviewIssue<cr>", "Preview" },
-							},
-							l = {
-								name = "+Litee",
-								t = { "<cmd>LTPanel<cr>", "Toggle Panel" },
-							},
-							r = {
-								name = "+Review",
-								b = { "<cmd>GHStartReview<cr>", "Begin" },
-								c = { "<cmd>GHCloseReview<cr>", "Close" },
-								d = { "<cmd>GHDeleteReview<cr>", "Delete" },
-								e = { "<cmd>GHExpandReview<cr>", "Expand" },
-								s = { "<cmd>GHSubmitReview<cr>", "Submit" },
-								z = { "<cmd>GHCollapseReview<cr>", "Collapse" },
-							},
-							p = {
-								name = "+Pull Request",
-								c = { "<cmd>GHClosePR<cr>", "Close" },
-								d = { "<cmd>GHPRDetails<cr>", "Details" },
-								e = { "<cmd>GHExpandPR<cr>", "Expand" },
-								o = { "<cmd>GHOpenPR<cr>", "Open" },
-								p = { "<cmd>GHPopOutPR<cr>", "PopOut" },
-								r = { "<cmd>GHRefreshPR<cr>", "Refresh" },
-								t = { "<cmd>GHOpenToPR<cr>", "Open To" },
-								z = { "<cmd>GHCollapsePR<cr>", "Collapse" },
-							},
-							t = {
-								name = "+Threads",
-								c = { "<cmd>GHCreateThread<cr>", "Create" },
-								n = { "<cmd>GHNextThread<cr>", "Next" },
-								t = { "<cmd>GHToggleThread<cr>", "Toggle" },
-							},
+					d = {
+						name = "Debug",
+						c = { ":lua require'dap'.continue()<CR>", "Continue" },
+						o = { ":lua require'dap'.step_over()<CR>", "Step Over" },
+						i = { ":lua require'dap'.step_into()<CR>", "Step Into" },
+						O = { ":lua require'dap'.step_out()<CR>", "Step Out" },
+						b = { ":lua require'dap'.toggle_breakpoint()<CR>", "Toggle Breakpoint" },
+						B = {
+							":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+							"Conditional Breakpoint",
 						},
+						-- = { ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>"}
+						r = { ":lua require'dap'.repl.open()<CR>", "REPL" },
+						-- = { ":lua require'dap'.run_last()<CR>"}
+						-- = { ":lua require'dap'.run_last()<CR>"}
 					},
 					h = {
 						name = "Hop",
@@ -113,34 +61,31 @@ return {
 	},
 	plugins = {
 		init = {
+			{ "nvim-treesitter/nvim-treesitter-context", requires = "nvim-treesitter/nvim-treesitter" },
+			{ "mfussenegger/nvim-dap" },
+			{ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } },
+			{ "theHamsta/nvim-dap-virtual-text" },
 			{ "gaelph/logsitter.nvim", requires = { "nvim-treesitter/nvim-treesitter" } },
-			{
-				"avneesh0612/react-nextjs-snippets",
-			},
-			{
-				"wakatime/vim-wakatime",
-			},
-			{
-				"lbrayner/vim-rzip",
-			},
-			{
-				"ldelossa/gh.nvim",
-				requires = { { "ldelossa/litee.nvim" } },
-				config = function()
-					require("litee.lib").setup()
-					require("litee.gh").setup()
-				end,
-			},
+			{ "avneesh0612/react-nextjs-snippets" },
+			{ "wakatime/vim-wakatime" },
+			{ "lbrayner/vim-rzip" },
 			{
 				"zbirenbaum/copilot.lua",
-				after = "feline.nvim",
+				after = "heirline.nvim",
 				config = function()
 					vim.defer_fn(function()
+						astronvim.add_user_cmp_source("copilot")
 						require("copilot").setup()
 					end, 100)
 				end,
 			},
-			{ "zbirenbaum/copilot-cmp", after = "copilot.lua" },
+			{
+				"zbirenbaum/copilot-cmp",
+				after = { "copilot.lua" },
+				config = function()
+					require("copilot_cmp").setup()
+				end,
+			},
 			{ "folke/tokyonight.nvim" },
 			{
 				"phaazon/hop.nvim",
@@ -168,27 +113,21 @@ return {
 				null_ls.builtins.formatting.stylua,
 				vale,
 			}
-			config.on_attach = function(client)
-				if client.resolved_capabilities.document_formatting then
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						desc = "Auto format before save",
-						pattern = "<buffer>",
-						callback = vim.lsp.buf.formatting_sync,
-					})
-				end
-			end
 			return config
 		end,
 		treesitter = {
 			ensure_installed = { "lua" },
 		},
-		-- use mason-lspconfig to configure LSP installations
 		["mason-lspconfig"] = {
 			ensure_installed = { "sumneko_lua" },
 		},
-		-- use mason-tool-installer to configure DAP/Formatters/Linter installation
 		["mason-tool-installer"] = {
 			ensure_installed = { "prettier", "stylua" },
+		},
+		lspkind = {
+			symbol_map = {
+				Copilot = "",
+			},
 		},
 		packer = {
 			compile_path = vim.fn.stdpath("data") .. "/packer_compiled.lua",
@@ -197,44 +136,26 @@ return {
 	cmp = {
 		source_priority = {
 			nvim_lsp = 1000,
+			copilot = 800,
 			luasnip = 750,
 			buffer = 500,
 			path = 250,
 		},
 	},
 	lsp = {
+		formatting = {
+			timeout_ms = 3200,
+			disabled = { "sumneko_lua", "tsserver" },
+			filter = function(client)
+				if vim.bo.filetype == "javascript" then
+					return client.name == "null-ls"
+				end
+				return true
+			end,
+		},
 		["server-settings"] = {
-			tsserver = {
-				on_attach = function(client)
-					client.resolved_capabilities.document_formatting = false
-				end,
-			},
-			sumneko_lua = {
-				cmd = { "lua-language-server", "--preview" },
-				settings = {
-					Lua = {
-						runtime = {
-							version = "LuaJIT",
-						},
-
-						diagnostics = {
-							globals = { "vim" },
-						},
-						format = {
-							enable = true,
-							defaultConfig = {
-								indent_style = "space",
-								indent_size = "2",
-							},
-						},
-						workspace = {
-							library = vim.api.nvim_get_runtime_file("", true),
-						},
-						telemetry = {
-							enable = false,
-						},
-					},
-				},
+			clangd = {
+				capabilities = { offsetEncoding = "utf-8" },
 			},
 			sqls = {
 				cmd = { "sqls", "--config", vim.loop.cwd() .. "/.sqls/config.yml" },
