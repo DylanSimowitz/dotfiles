@@ -1,6 +1,6 @@
 return {
 	updater = {
-		branch = "nightly",
+		branch = "main",
 	},
 	colorscheme = "tokyonight-night",
 	options = {
