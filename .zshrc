@@ -1,6 +1,3 @@
-if [ -f /run/genie.path ]; then
-  path+=$(cat /run/genie.path)
-fi
 path+=$(go env GOPATH)/bin
 path+=~/.local/bin
 path+=~/.npm-global/bin
