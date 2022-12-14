@@ -1,11 +1,28 @@
+local has_words_before = function()
+	if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+		return false
+	end
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+end
+
 return {
 	updater = {
 		branch = "main",
 	},
 	colorscheme = "tokyonight-night",
-	options = {
-		g = {
-			tokyonight_style = "night",
+	highlights = {
+		init = {
+			Normal = { bg = "NONE", ctermbg = "NONE" },
+			NormalNC = { bg = "NONE", ctermbg = "NONE" },
+			CursorColumn = { cterm = {}, ctermbg = "NONE", ctermfg = "NONE" },
+			CursorLine = { cterm = {}, ctermbg = "NONE", ctermfg = "NONE" },
+			CursorLineNr = { cterm = {}, ctermbg = "NONE", ctermfg = "NONE" },
+			LineNr = {},
+			SignColumn = {},
+			StatusLine = {},
+			NeoTreeNormal = { bg = "NONE", ctermbg = "NONE" },
+			NeoTreeNormalNC = { bg = "NONE", ctermbg = "NONE" },
 		},
 	},
 	header = {
@@ -31,22 +48,6 @@ return {
 		register = {
 			n = {
 				["<leader>"] = {
-					d = {
-						name = "Debug",
-						c = { ":lua require'dap'.continue()<CR>", "Continue" },
-						o = { ":lua require'dap'.step_over()<CR>", "Step Over" },
-						i = { ":lua require'dap'.step_into()<CR>", "Step Into" },
-						O = { ":lua require'dap'.step_out()<CR>", "Step Out" },
-						b = { ":lua require'dap'.toggle_breakpoint()<CR>", "Toggle Breakpoint" },
-						B = {
-							":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-							"Conditional Breakpoint",
-						},
-						-- = { ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>"}
-						r = { ":lua require'dap'.repl.open()<CR>", "REPL" },
-						-- = { ":lua require'dap'.run_last()<CR>"}
-						-- = { ":lua require'dap'.run_last()<CR>"}
-					},
 					h = {
 						name = "Hop",
 						c = { "<cmd>HopChar1<cr>", "Character" },
@@ -61,21 +62,30 @@ return {
 	},
 	plugins = {
 		init = {
-			{ "nvim-treesitter/nvim-treesitter-context", requires = "nvim-treesitter/nvim-treesitter" },
-			{ "mfussenegger/nvim-dap" },
-			{ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } },
-			{ "theHamsta/nvim-dap-virtual-text" },
+			{ "nvim-treesitter/nvim-treesitter-context", requires = { "nvim-treesitter/nvim-treesitter" } },
 			{ "gaelph/logsitter.nvim", requires = { "nvim-treesitter/nvim-treesitter" } },
 			{ "avneesh0612/react-nextjs-snippets" },
 			{ "wakatime/vim-wakatime" },
 			{ "lbrayner/vim-rzip" },
 			{
 				"zbirenbaum/copilot.lua",
-				after = "heirline.nvim",
+				event = "VimEnter",
 				config = function()
 					vim.defer_fn(function()
+						require("copilot").setup({
+							suggestion = {
+								enabled = true,
+								auto_trigger = true,
+								debounce = 75,
+								keymap = {
+									accept = "<M-l>",
+									next = "<M-]>",
+									prev = "<M-[>",
+									dismiss = "<C-]>",
+								},
+							},
+						})
 						astronvim.add_user_cmp_source("copilot")
-						require("copilot").setup()
 					end, 100)
 				end,
 			},
@@ -83,7 +93,12 @@ return {
 				"zbirenbaum/copilot-cmp",
 				after = { "copilot.lua" },
 				config = function()
-					require("copilot_cmp").setup()
+					require("copilot_cmp").setup({
+						method = "getCompletionsCycling",
+						formatters = {
+							insert_text = require("copilot_cmp.format").remove_existing,
+						},
+					})
 				end,
 			},
 			{ "folke/tokyonight.nvim" },
@@ -116,13 +131,55 @@ return {
 			return config
 		end,
 		treesitter = {
-			ensure_installed = { "lua" },
+			ensure_installed = { "lua", "typescript", "tsx", "javascript", "css", "html", "prisma" },
 		},
+		cmp = function(opts)
+			local cmp = require("cmp")
+			local luasnip = require("luasnip")
+			-- modify the mapping part of the table
+			cmp.event:on("menu_opened", function()
+				vim.b.copilot_suggestion_hidden = true
+			end)
+
+			cmp.event:on("menu_closed", function()
+				vim.b.copilot_suggestion_hidden = false
+			end)
+			opts.mapping["<Tab>"] = cmp.mapping(function(fallback)
+				if require("copilot.suggestion").is_visible() then
+					require("copilot.suggestion").accept()
+				elseif cmp.visible() then
+					cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+				elseif luasnip.expandable() then
+					luasnip.expand()
+				elseif has_words_before() then
+					cmp.complete()
+				else
+					fallback()
+				end
+			end, {
+				"i",
+				"s",
+			})
+
+			-- return the new table to be used
+			return opts
+		end,
 		["mason-lspconfig"] = {
-			ensure_installed = { "sumneko_lua" },
+			ensure_installed = {
+				"prismals",
+				"jsonls",
+				"sumneko_lua",
+				"angularls",
+				"tsserver",
+				"pyright",
+				"tailwindcss",
+			},
+		},
+		["mason-nvim-dap"] = {
+			ensure_installed = { "python", "js-debug-adapter", "node-debug2-adapter" },
 		},
 		["mason-tool-installer"] = {
-			ensure_installed = { "prettier", "stylua" },
+			ensure_installed = { "prettierd", "stylua", "eslint_d", "vale" },
 		},
 		lspkind = {
 			symbol_map = {
@@ -186,6 +243,16 @@ return {
 				vim.keymap.set("n", "<leader>lg", function()
 					require("logsitter").log()
 				end)
+			end,
+		})
+		vim.api.nvim_create_augroup("FormatOptions", { clear = true })
+		vim.api.nvim_create_autocmd("FileType", {
+			group = "FormatOptions",
+			pattern = "*",
+			callback = function()
+				vim.bo.formatoptions = vim.bo.formatoptions:gsub("c", "")
+				vim.bo.formatoptions = vim.bo.formatoptions:gsub("r", "")
+				vim.bo.formatoptions = vim.bo.formatoptions:gsub("o", "")
 			end,
 		})
 	end,
