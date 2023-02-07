@@ -7,7 +7,6 @@ path+=~/.cargo/bin
 HISTSIZE=10000
 SAVEHIST=10000
 KEYTIMEOUT=1
-TMOUT=600
 
 # TRAPALRM() { neo-matrix -m "$(echo -n `fortune`)" -s -D -S 10 -d 0.5 --colormode=16 }
 
