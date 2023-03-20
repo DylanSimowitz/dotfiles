@@ -18,7 +18,10 @@ elif [[ `uname` == "Darwin" ]]; then
 else
     echo 'Unknown OS!'
 fi
-source ~/secrets.zsh
+
+if [[ -n "$WSLENV" ]]; then
+  export BROWSER="wsl-open"
+fi
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
