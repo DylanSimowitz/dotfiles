@@ -80,3 +80,8 @@ npm () {
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+# pnpm
+export PNPM_HOME="/home/dylan/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
