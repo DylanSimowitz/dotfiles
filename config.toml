@@ -73,13 +73,10 @@
     	["@install", "neovim", "ripgrep"],
         ["@npm-install", "prettier", "eslint_d"],
         ["@go-install", "github.com/errata-ai/vale@latest"],
-	    ["@clone", "https://github.com/AstroNvim/AstroNvim", "${HM_DEST}/.config/nvim"]
-    ]
-    cmdspost = [
-	    ["nvim", "--headless", "-c", 'autocmd User PackerComplete quitall', "-c", 'PackerSync']
+	    ["@clone", "https://github.com/LazyVim/starter", "${HM_DEST}/.config/nvim"]
     ]
     links = [
-        ["${HM_DEST}/.config/nvim/lua/user", "nvim"],
+        ["${HM_DEST}/.config/nvim/lua", "nvim/lua"],
         [".config/lazygit/config.yml"]
     ]
 
