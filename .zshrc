@@ -67,6 +67,7 @@ eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
 
 export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+export EDITOR=nvim
 
 NPM_PATH=$(which npm)
 npm () {
