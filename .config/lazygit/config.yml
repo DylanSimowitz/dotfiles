@@ -9,6 +9,7 @@ git:
   paging:
     colorArg: always
     pager: delta --dark --paging=never
+  disableForcePushing: true
 customCommands:
   - key: "C"
     command: "git cz"
