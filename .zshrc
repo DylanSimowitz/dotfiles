@@ -79,13 +79,8 @@ npm () {
   fi
 }
 
-# Load Angular CLI autocompletion if ng exists
-if (which ng)
-then
-  source <(ng completion script)
-fi
-
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+export OPENAI_API_KEY=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
 
 # pnpm
 export PNPM_HOME="/Users/dylansimowitz/Library/pnpm"
