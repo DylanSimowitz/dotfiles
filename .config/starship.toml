@@ -1,7 +1,7 @@
 format = """
-[┏━━━━━━━━━━━━━━━━━▶](bold red)
-[┃ ](bold red)$container$all\
-[┗━▶ ](bold red)
+[┏━━━━━━━━━━━━━━━━━▶](bold yellow)
+[┃ ](bold yellow)$container$all\
+[┗━▶ ](bold yellow)
 """
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10

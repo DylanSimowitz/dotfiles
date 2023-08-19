@@ -4,5 +4,6 @@ return {
 		config = function()
 			require("deadcolumn").setup({})
 		end,
+		vscode = false,
 	},
 }

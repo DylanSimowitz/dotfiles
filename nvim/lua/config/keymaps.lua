@@ -4,5 +4,8 @@
 
 if vim.g.vscode then
 	vim.keymap.set("n", "<leader>gg", "<Cmd>call VSCodeNotify('workbench.action.tasks.runTask', 'close_lazygit')<CR>")
-	vim.keymap.set("n", "<leader>", "<Cmd>call VSCodeNotify('whichkey.show')<CR>")
+	-- vim.keymap.set("n", "<leader>", "<Cmd>call VSCodeNotify('whichkey.show')<CR>")
+	vim.keymap.set("n", "<leader>e", "<Cmd>call VSCodeNotify('workbench.view.explorer')<CR>")
+	vim.keymap.set("n", "<leader>/", "<Cmd>call VSCodeNotify('find-it-faster.findWithinFiles')<CR>")
+	vim.keymap.set("n", "<leader>ff", "<Cmd>call VSCodeNotify('find-it-faster.findFiles')<CR>")
 end

@@ -3,3 +3,7 @@
 -- Add any additional options here
 local opt = vim.opt
 opt.colorcolumn = "120"
+if vim.g.vscode then
+	opt.clipboard:append("unnamedplus")
+	opt.colorcolumn = ""
+end

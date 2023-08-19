@@ -9,5 +9,6 @@ return {
 			{ "<leader>hl", "<cmd>HopLine<cr>", desc = "Hop Line" },
 			{ "^M", "<cmd>HopWordMW<cr>", desc = "Hop Anywhere" },
 		},
+		vscode = true,
 	},
 }
