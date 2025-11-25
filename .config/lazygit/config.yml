@@ -6,13 +6,13 @@ gui:
     "*": "#ff0000"
 git:
   parseEmoji: true
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
   disableForcePushing: true
 customCommands:
   - key: "C"
     command: "git cz"
     context: "files"
     loadingText: "opening commitizen commit tool"
-    subprocess: true
+    output: terminal
